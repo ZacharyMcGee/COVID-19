@@ -6,7 +6,7 @@ loadTimelineMap();
 const interval = setInterval(function() {    
     loadTimelineMap();
     curDate = getNextDate();
-}, 100);
+}, 300);
 
 function getNextDate() {
     if(new Date(curDate).getMonth() >= new Date().getMonth() && new Date(curDate).getDate() >= new Date().getDate()) {
