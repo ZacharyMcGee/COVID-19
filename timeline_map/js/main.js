@@ -10,7 +10,7 @@ const interval = setInterval(function() {
 
 function getNextDate() {
     if(new Date(curDate).getMonth() >= new Date().getMonth() && new Date(curDate).getDate() >= new Date().getDate()) {
-        curDate = startDate;
+        curDate = startDate; 
         return curDate;
     }
 
@@ -21,7 +21,7 @@ function getNextDate() {
 }
 
 function loadTimelineMap() {
-    Plotly.d3.csv('https://raw.githubusercontent.com/ZacharyMcGee/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv', function(err, rows){
+    Plotly.d3.csv("https://raw.githubusercontent.com/ZacharyMcGee/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv", function(err, rows){
 
         function unpack(rows, key) {
             return rows.map(function(row) { return row[key]; });
@@ -34,13 +34,22 @@ function loadTimelineMap() {
             color = [,"rgb(255,65,54)","rgb(133,20,75)","rgb(255,133,27)","lightgrey"],
             citySize = [],
             hoverText = [],
-            scale = 5;
-    
+            scale = 3;
+        
+        var currentInfected = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            if(rows[i]["Country/Region"] == "US") {
+                currentInfected = parseInt(currentInfected) + parseInt(cityPop[i]);
+            }
+        }
+
         for ( var i = 0 ; i < cityPop.length; i++) {
             var currentSize = cityPop[i] / scale;
             var currentText = cityName[i] + " pop: " + cityPop[i];
             citySize.push(currentSize);
             hoverText.push(currentText);
+
         }
     
         var data = [{
@@ -60,7 +69,7 @@ function loadTimelineMap() {
         }];
     
         var layout = {
-            title: 'US Coronavirus(COVID-19) Outbreak Timeline' + ' : ' + curDate,
+            title: 'US Coronavirus(COVID-19) Outbreak Timeline' + ' : ' + curDate + '<br>' + 'Infected Count: ' + currentInfected,
             showlegend: false,
             geo: {
                 scope: 'usa',
