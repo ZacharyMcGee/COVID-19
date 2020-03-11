@@ -40,6 +40,9 @@ function loadTimelineMap() {
 
         for (var i = 0; i < rows.length; i++) {
             if(rows[i]["Country/Region"] == "US") {
+                if(curDate == "3/10/20") {
+                console.log(rows[i]);
+                }
                 currentInfected = parseInt(currentInfected) + parseInt(cityPop[i]);
             }
         }
